@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <TodoHeader></TodoHeader>
-    <TodoInput></TodoInput>
-    <TodoList></TodoList>
-    <TodoFooter></TodoFooter>
+    <TodoInput v-on:addTodoItem="addOneItem"></TodoInput>
+    <TodoList v-bind:propsdata="todoItems" v-on:removeTodoItem="removeOneItem" v-on:todoCompleted="complete"></TodoList>
+    <TodoFooter v-on:removeAllTodoItem="removeAll"></TodoFooter>
   </div>
 </template>
 
@@ -14,15 +14,65 @@ import TodoList from './components/TodoList.vue'
 import TodoInput from './components/TodoInput.vue'
 
 export default {
+  name: 'app',
   components: {
     'TodoFooter' : TodoFooter,
     'TodoHeader' : TodoHeader,
     'TodoList' : TodoList,
     'TodoInput' : TodoInput
+  },
+  created: function () {
+    if (localStorage.length > 0) {
+      for (var i = 0; i < localStorage.length; i++) {
+        var item = localStorage.getItem(localStorage.key(i));
+        var parse = JSON.parse(item);
+        this.todoItems.push(parse);
+      }
+    }
+  },
+  data : function() {
+    return {
+      todoItems: []
+    }
+  },
+  methods: {
+    addOneItem: function(newTodoItem) {
+      var obj = { completed: false, item: newTodoItem };
+      localStorage.setItem(newTodoItem, JSON.stringify(obj));
+      this.todoItems.push(obj);
+    },
+    removeOneItem: function(todoItem, index) {
+      localStorage.removeItem(todoItem.item);
+      this.todoItems.splice(index, 1);
+    },
+    removeAll: function() {
+      localStorage.clear();
+      this.todoItems = [];
+    },
+    complete: function(todoItem, index) {
+      this.todoItems[index].completed = !this.todoItems[index].completed;
+      localStorage.removeItem(todoItem);
+      localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
+    }
   }
 }
 </script>
 
 <style>
+body {
+  text-align: center;
+  background-color: #F6F6F6;
+}
 
+input {
+  border-style: groove;
+  width: 200px;
+}
+
+button {
+  border-style: groove;
+}
+.shadow {
+  box-shadow: 5px 10px 10px rgba(0, 0,0,0.03);
+}
 </style>
