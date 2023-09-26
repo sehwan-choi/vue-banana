@@ -1,7 +1,7 @@
 <template>
   <div>
     <transition-group name="list" tag="ul">
-      <li v-for="(todoItem, index) in propsdata" v-bind:key="todoItem.item" class="shadow">
+      <li v-for="(todoItem, index) in this.$store.state.todoItems" v-bind:key="todoItem.item" class="shadow">
         <i class="checkBtn fa-solid fa-check" v-bind:class="{checkBtnCompleted: todoItem.completed}" v-on:click="toggleComplete(todoItem, index)"></i>
         <span v-bind:class="{textCompleted: todoItem.completed}">{{ todoItem.item }}</span>
         <span class="removeBtn" v-on:click="removeTodo(todoItem, index)">
@@ -14,13 +14,24 @@
 
 <script>
 export default {
-  props: ['propsdata'],
+  // Vuex로 전환하면서 props 삭제
+  // props: ['propsdata'],
   methods: {
     removeTodo(todoItem, index) {
-      this.$emit('removeTodoItem', todoItem, index);
+      this.$store.commit('removeOneItem', {
+        item: todoItem.item,
+        completed: todoItem.completed,
+        index});
+      // Vuex를 사용함에 따라 위 코드로 수정
+      // this.$emit('removeTodoItem', todoItem, index);
     },
     toggleComplete(todoItem, index) {
-      this.$emit('todoCompleted', todoItem, index);
+      this.$store.commit('complete', {
+        todoItem, 
+        index
+      });
+      // Vuex를 사용함에 따라 위 코드로 수정
+      // this.$emit('todoCompleted', todoItem, index);
     }
   },
 }

@@ -1,11 +1,21 @@
 <template>
   <div id="app">
     <TodoHeader></TodoHeader>
-    <TodoInput v-on:addTodoItem="addOneItem"></TodoInput>
-    <TodoList v-bind:propsdata="todoItems" 
+    
+    <TodoInput></TodoInput>
+      <!-- Vuex를 이용함에 따라 위 코드로 변경  -->
+    <!-- <TodoInput v-on:addTodoItem="addOneItem"></TodoInput> -->
+    
+    <TodoList></TodoList>
+    <!-- Vuex를 이용함에 따라 위 코드로 변경  -->
+    <!-- <TodoList v-bind:propsdata="todoItems"
               v-on:removeTodoItem="removeOneItem" 
-              v-on:todoCompleted="complete"></TodoList>
-    <TodoFooter v-on:removeAllTodoItem="removeAll"></TodoFooter>
+              v-on:todoCompleted="complete"></TodoList> -->
+
+              
+    <TodoFooter></TodoFooter>
+      <!-- Vuex를 이용함에 따라 위 코드로 변경  -->
+    <!-- <TodoFooter v-on:removeAllTodoItem="removeAll"></TodoFooter> -->
   </div>
 </template>
 
@@ -23,39 +33,34 @@ export default {
     TodoList,
     TodoInput
   },
-  created: function () {
-    if (localStorage.length > 0) {
-      for (let i = 0; i < localStorage.length; i++) {
-        const item = localStorage.getItem(localStorage.key(i));
-        const parse = JSON.parse(item);
-        this.todoItems.push(parse);
-      }
-    }
-  },
-  data() {
-    return {
-      todoItems: []
-    }
-  },
+  // data() {
+  //   return {
+  //     todoItems: []
+  //   }
+  // },
   methods: {
-    addOneItem(newTodoItem) {
-      const obj = { completed: false, item: newTodoItem };
-      localStorage.setItem(newTodoItem, JSON.stringify(obj));
-      this.todoItems.push(obj);
-    },
-    removeOneItem(todoItem, index) {
-      localStorage.removeItem(todoItem.item);
-      this.todoItems.splice(index, 1);
-    },
-    removeAll() {
-      localStorage.clear();
-      this.todoItems = [];
-    },
-    complete(todoItem, index) {
-      this.todoItems[index].completed = !this.todoItems[index].completed;
-      localStorage.removeItem(todoItem);
-      localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
-    }
+    // Vuex를 사용함에 따라 아래 코드는 store.js로 
+    // addOneItem(newTodoItem) {
+    //   const obj = { completed: false, item: newTodoItem };
+    //   localStorage.setItem(newTodoItem, JSON.stringify(obj));
+    //   this.todoItems.push(obj);
+    // },
+    // Vuex를 사용함에 따라 아래 코드는 store.js로 
+    // removeOneItem(todoItem, index) {
+    //   localStorage.removeItem(todoItem.item);
+    //   this.todoItems.splice(index, 1);
+    // },
+    // Vuex를 사용함에 따라 아래 코드는 store.js로 
+    // removeAll() {
+    //   localStorage.clear();
+    //   this.todoItems = [];
+    // },
+    // Vuex를 사용함에 따라 아래 코드는 store.js로 
+    // complete(todoItem, index) {
+    //   this.todoItems[index].completed = !this.todoItems[index].completed;
+    //   localStorage.removeItem(todoItem);
+    //   localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
+    // }
   }
 }
 </script>

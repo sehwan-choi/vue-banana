@@ -8,7 +8,9 @@
 export default {
   methods: {
     clearTodo() {
-      this.$emit('removeAllTodoItem');
+      this.$store.commit('removeAll');
+      // Vuex를 사용함에 따라 위 코드로 수정
+      // this.$emit('removeAllTodoItem');
     }
   }
 }

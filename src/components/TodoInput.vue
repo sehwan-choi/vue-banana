@@ -36,7 +36,9 @@ export default {
   methods: {
     addTodo() {
       if (this.newTodoItem !== '') {
-        this.$emit('addTodoItem', this.newTodoItem);
+        this.$store.commit('addOneItem', this.newTodoItem);
+        // Vuex를 사용함에 따라 위 코드로 수정
+        // this.$emit('addTodoItem', this.newTodoItem);
         this.clearInput();
       } else {
         this.showModal = !this.showModal;
