@@ -2,7 +2,9 @@
   <div id="app">
     <TodoHeader></TodoHeader>
     <TodoInput v-on:addTodoItem="addOneItem"></TodoInput>
-    <TodoList v-bind:propsdata="todoItems" v-on:removeTodoItem="removeOneItem" v-on:todoCompleted="complete"></TodoList>
+    <TodoList v-bind:propsdata="todoItems" 
+              v-on:removeTodoItem="removeOneItem" 
+              v-on:todoCompleted="complete"></TodoList>
     <TodoFooter v-on:removeAllTodoItem="removeAll"></TodoFooter>
   </div>
 </template>
@@ -16,40 +18,40 @@ import TodoInput from './components/TodoInput.vue'
 export default {
   name: 'app',
   components: {
-    'TodoFooter' : TodoFooter,
-    'TodoHeader' : TodoHeader,
-    'TodoList' : TodoList,
-    'TodoInput' : TodoInput
+    TodoFooter,
+    TodoHeader,
+    TodoList,
+    TodoInput
   },
   created: function () {
     if (localStorage.length > 0) {
-      for (var i = 0; i < localStorage.length; i++) {
-        var item = localStorage.getItem(localStorage.key(i));
-        var parse = JSON.parse(item);
+      for (let i = 0; i < localStorage.length; i++) {
+        const item = localStorage.getItem(localStorage.key(i));
+        const parse = JSON.parse(item);
         this.todoItems.push(parse);
       }
     }
   },
-  data : function() {
+  data() {
     return {
       todoItems: []
     }
   },
   methods: {
-    addOneItem: function(newTodoItem) {
-      var obj = { completed: false, item: newTodoItem };
+    addOneItem(newTodoItem) {
+      const obj = { completed: false, item: newTodoItem };
       localStorage.setItem(newTodoItem, JSON.stringify(obj));
       this.todoItems.push(obj);
     },
-    removeOneItem: function(todoItem, index) {
+    removeOneItem(todoItem, index) {
       localStorage.removeItem(todoItem.item);
       this.todoItems.splice(index, 1);
     },
-    removeAll: function() {
+    removeAll() {
       localStorage.clear();
       this.todoItems = [];
     },
-    complete: function(todoItem, index) {
+    complete(todoItem, index) {
       this.todoItems[index].completed = !this.todoItems[index].completed;
       localStorage.removeItem(todoItem);
       localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
