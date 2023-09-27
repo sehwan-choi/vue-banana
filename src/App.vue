@@ -16,6 +16,7 @@
     <TodoFooter></TodoFooter>
       <!-- Vuex를 이용함에 따라 위 코드로 변경  -->
     <!-- <TodoFooter v-on:removeAllTodoItem="removeAll"></TodoFooter> -->
+    <DemoView></DemoView>
   </div>
 </template>
 
@@ -24,6 +25,7 @@ import TodoFooter from './components/TodoFooter.vue'
 import TodoHeader from './components/TodoHeader.vue'
 import TodoList from './components/TodoList.vue'
 import TodoInput from './components/TodoInput.vue'
+import DemoView from './components/DemoView.vue'
 
 export default {
   name: 'app',
@@ -31,7 +33,8 @@ export default {
     TodoFooter,
     TodoHeader,
     TodoList,
-    TodoInput
+    TodoInput,
+    DemoView
   },
   // data() {
   //   return {

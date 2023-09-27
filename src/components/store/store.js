@@ -20,7 +20,22 @@ const storage = {
 
 export default new Vuex.Store({
     state: {
-      todoItems: storage.fetch()
+      todoItems: storage.fetch(),
+        price: 100
+    },
+    getters: {
+        storedTodoItems(state) {
+            return state.todoItems;
+        },
+        originalPrice(state) {
+            return state.price;
+        },
+        doublePrice(state) {
+            return state.price * 2;
+        },
+        triplePrice(state) {
+            return state.price * 3;
+        }
     },
     mutations: {
         addOneItem(state, newTodoItem) {
@@ -29,7 +44,7 @@ export default new Vuex.Store({
             state.todoItems.push(obj);
         },
         removeOneItem(state, payload) {
-            console.log(payload);
+            console.log('removeOneItem',payload);
             localStorage.removeItem(payload.item);
             state.todoItems.splice(payload.index, 1);
         },
@@ -43,6 +58,6 @@ export default new Vuex.Store({
             state.todoItems[payload.index].completed = !state.todoItems[payload.index].completed;
             localStorage.removeItem(payload.todoItem);
             localStorage.setItem(payload.todoItem.item, JSON.stringify(payload.todoItem));
-        }
+        },
     },
 })
